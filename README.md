@@ -20,39 +20,40 @@ This is a simple Flask web application that serves as a guestbook or "welcome bo
     -   Flask-Login (for handling user sessions)
     -   Flask-WTF (for forms)
 -   **Database**:
-    -   SQLite
+    -   MariaDB
 -   **Frontend**:
     -   HTML
     -   Jinja2 (template engine)
 
-## Installation
-
-1.  **Clone the repository**:
-    ```bash
-    git clone https://github.com/BerganouY/felicit_app.git
-    cd felicit_app
-    ```
-
-2.  **Create and activate a virtual environment**:
-    ```bash
-    python3 -m venv .venv
-    source .venv/bin/activate
-    ```
-
-3.  **Install the dependencies**:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
 ## Usage
 
-1.  **Run the application**:
-    ```bash
-    python run.py
+1.  **Create a `.env` file**:
+
+    Create a `.env` file in the root of the project and add the following environment variables:
+
+    ```
+    DATABASE_USERNAME=carnet_user
+    DATABASE_PASSWORD=admin123
+    DATABASE_HOST=db
+    DATABASE_NAME=carnet_db
     ```
 
-2.  **Access the application**:
+2.  **Run with Docker Compose**:
+
+    ```bash
+    docker-compose up -d --build
+    ```
+
+3.  **Access the application**:
+
     Open your web browser and go to `http://127.0.0.1:5000`.
+
+## Docker Compose
+
+1.  **Run with Docker Compose**:
+    ```bash
+    docker-compose up -d
+    ```
 
 ## Docker
 
@@ -82,6 +83,6 @@ This is a simple Flask web application that serves as a guestbook or "welcome bo
 │       ├───login.html
 │       └───signup.html
 ├───instance/
-│   └───site.db           # SQLite database file
+
 └───static/               # Static files (CSS, JavaScript, images)
 ```

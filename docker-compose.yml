@@ -1,0 +1,41 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_APP=run.py
+      - FLASK_RUN_HOST=0.0.0.0
+      # Ces variables sont maintenant utilisées pour construire l'URL de connexion
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_HOST=db  # 'db' est le nom du service, pas localhost
+      - DATABASE_NAME=${DATABASE_NAME}
+    depends_on:
+      db:
+        # Attend que la DB soit "healthy" avant de démarrer 'web'
+        condition: service_healthy
+
+  db:
+    image: mariadb:10.5
+    environment:
+      # Ces variables doivent correspondre à celles utilisées par le service 'web'
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD} # Vous pouvez utiliser un mot de passe root différent si vous le souhaitez
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USERNAME}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      # Le volume 'init-db' est supprimé, la logique est dans run.py
+      - db_data:/var/lib/mysql
+    # AJOUTÉ : Un healthcheck pour que 'web' sache quand la DB est prête
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${DATABASE_USERNAME}", "-p${DATABASE_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s # Donne à la DB un peu de temps pour démarrer avant le premier check
+
+volumes:
+  db_data:
