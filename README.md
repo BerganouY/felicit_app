@@ -43,7 +43,6 @@ This is a simple Flask web application that serves as a guestbook or "welcome bo
     ```bash
     pip install -r requirements.txt
     ```
-    *(Note: A `requirements.txt` file would need to be created for this step)*
 
 ## Usage
 
@@ -54,6 +53,18 @@ This is a simple Flask web application that serves as a guestbook or "welcome bo
 
 2.  **Access the application**:
     Open your web browser and go to `http://127.0.0.1:5000`.
+
+## Docker
+
+1.  **Build the Docker image**:
+    ```bash
+    docker build -t felicit-app .
+    ```
+
+2.  **Run the Docker container**:
+    ```bash
+    docker run -p 5000:5000 felicit-app
+    ```
 
 ## Folder Structure
 
